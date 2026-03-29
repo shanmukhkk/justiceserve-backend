@@ -4,6 +4,7 @@ import com.justiceserve.backend.citizen.dto.CitizenRequestDto;
 import com.justiceserve.backend.citizen.dto.CitizenResponseDto;
 import com.justiceserve.backend.citizen.entity.Citizen;
 import com.justiceserve.backend.citizen.repository.CitizenRepository;
+import com.justiceserve.backend.common.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,14 +42,14 @@ public class CitizenService {
 
     public CitizenResponseDto getCitizenById(Long id) {
         Citizen citizen = citizenRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Citizen not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Citizen not found with id: " + id));
 
         return mapToResponse(citizen);
     }
 
     public CitizenResponseDto updateCitizen(Long id, CitizenRequestDto dto) {
         Citizen citizen = citizenRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Citizen not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Citizen not found with id: " + id));
 
         citizen.setName(dto.getName());
         citizen.setDob(dto.getDob());
@@ -63,7 +64,7 @@ public class CitizenService {
 
     public void deleteCitizen(Long id) {
         Citizen citizen = citizenRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Citizen not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Citizen not found with id: " + id));
 
         citizenRepository.delete(citizen);
     }

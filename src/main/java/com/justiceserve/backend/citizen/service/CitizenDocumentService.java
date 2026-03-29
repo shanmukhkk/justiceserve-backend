@@ -6,6 +6,7 @@ import com.justiceserve.backend.citizen.entity.Citizen;
 import com.justiceserve.backend.citizen.entity.CitizenDocument;
 import com.justiceserve.backend.citizen.repository.CitizenDocumentRepository;
 import com.justiceserve.backend.citizen.repository.CitizenRepository;
+import com.justiceserve.backend.common.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,7 +27,7 @@ public class CitizenDocumentService {
 
     public CitizenDocumentResponseDto addDocument(Long citizenId, CitizenDocumentRequestDto dto) {
         Citizen citizen = citizenRepository.findById(citizenId)
-                .orElseThrow(() -> new RuntimeException("Citizen not found with id: " + citizenId));
+                .orElseThrow(() -> new ResourceNotFoundException("Citizen not found with id: " + citizenId));
 
         CitizenDocument document = CitizenDocument.builder()
                 .citizen(citizen)
@@ -49,7 +50,7 @@ public class CitizenDocumentService {
 
     public CitizenDocumentResponseDto updateVerificationStatus(Long documentId, String verificationStatus) {
         CitizenDocument document = citizenDocumentRepository.findById(documentId)
-                .orElseThrow(() -> new RuntimeException("Document not found with id: " + documentId));
+                .orElseThrow(() -> new ResourceNotFoundException("Document not found with id: " + documentId));
 
         document.setVerificationStatus(verificationStatus);
 

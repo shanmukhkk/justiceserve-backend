@@ -1,5 +1,6 @@
 package com.justiceserve.backend.notification.service;
 
+import com.justiceserve.backend.common.exception.ResourceNotFoundException;
 import com.justiceserve.backend.notification.dto.NotificationRequestDto;
 import com.justiceserve.backend.notification.dto.NotificationResponseDto;
 import com.justiceserve.backend.notification.entity.Notification;
@@ -42,7 +43,7 @@ public class NotificationService {
 
     public NotificationResponseDto getNotificationById(Long id) {
         Notification notification = notificationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Notification not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Notification not found with id: " + id));
 
         return mapToResponse(notification);
     }
@@ -56,7 +57,7 @@ public class NotificationService {
 
     public NotificationResponseDto updateNotificationStatus(Long id, String status) {
         Notification notification = notificationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Notification not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Notification not found with id: " + id));
 
         notification.setStatus(status);
 
